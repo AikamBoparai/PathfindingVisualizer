@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import Node from './Node/Node';
 import {dijkstra, getNodesInShortestPathOrder} from '../algorithms/dijkstra';
-
+import {greedyBestFirst} from '../algorithms/greedyBestFirst';
 import './PathfindingVisualizer.css';
+
 
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
@@ -71,11 +72,28 @@ export default class PathfindingVisualizer extends Component {
     const {grid} = this.state;
     const startNode = grid[START_NODE_ROW][START_NODE_COL];
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
-
-    //first determine which nodes we visit according to dijkstra
     const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
     const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
     this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
+  }
+
+  visualizeGBFS(){
+    const {grid} = this.state;
+    const startNode = grid[START_NODE_ROW][START_NODE_COL];
+    const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
+    const visitedNodesInOrder = greedyBestFirst(grid, startNode, finishNode, 20, 50);
+    this.animateGBFS(visitedNodesInOrder);
+  }
+
+  animateGBFS(visitedNodesInOrder){
+    for (let i = 0; i < visitedNodesInOrder.length; i++) {
+      //once we reach the end of visiting nodes, then we can start the shortest path
+      setTimeout(() => {
+        const node = visitedNodesInOrder[i];
+        document.getElementById(`node-${node.row}-${node.col}`).className =
+          'node node-visited';
+      }, 5 * i);
+    }
   }
 
   resetGrid(){
@@ -121,6 +139,9 @@ export default class PathfindingVisualizer extends Component {
         <button onClick={() => this.resetGrid()}>Reset Grid</button>
         <button onClick={() => this.visualizeDijkstra()}>
           Visualize Dijkstra's Algorithm
+        </button>
+        <button onClick={() => this.visualizeGBFS()}>
+          Visualize Greedy Best First Search
         </button>
         <div className="grid">
           {grid.map((row, rowIdx) => {
