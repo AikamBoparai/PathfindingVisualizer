@@ -5,7 +5,9 @@ export function dijkstra(grid, startNode, finishNode) {
     startNode.distance = 0;
     //get all nodes and they'll have a distance of infinity
     const unvisitedNodes = getAllNodes(grid);
+    
     //So keep looping until we visit all nodes, once we visit all nodes we stop
+    var counter = 0;
     while (unvisitedNodes.length) {
       //visit one node at time
       sortNodesByDistance(unvisitedNodes);

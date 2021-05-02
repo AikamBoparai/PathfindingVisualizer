@@ -92,7 +92,7 @@ export default class PathfindingVisualizer extends Component {
         const node = visitedNodesInOrder[i];
         document.getElementById(`node-${node.row}-${node.col}`).className =
           'node node-visited';
-      }, 5 * i);
+      }, 10 * i);
     }
   }
 
@@ -192,11 +192,11 @@ const createNode = (col, row) => {
     row,
     isStart: row === START_NODE_ROW && col === START_NODE_COL,
     isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
-    distance: Infinity,
+    heuristic: Infinity,
     isVisited: false,
     isWall: false,
+    distance: Infinity,
     previousNode: null,
-    heurisitc: Infinity,
   };
 };
 
