@@ -58,13 +58,31 @@ export default class PathfindingVisualizer extends Component {
     }
   }
 
-  animateShortestPath(nodesInShortestPathOrder) {
+  animateGBFS(visitedNodesInOrder, nodesInShortestPathOrder) {
+    //go through the visited nodes in order
+    for (let i = 0; i <= visitedNodesInOrder.length; i++) {
+      //once we reach the end of visiting nodes, then we can start the shortest path
+      if (i === visitedNodesInOrder.length) {
+        setTimeout(() => {
+          this.animateShortestPath(nodesInShortestPathOrder);
+        }, 10 * i);
+        return;
+      }
+      setTimeout(() => {
+        const node = visitedNodesInOrder[i];
+        document.getElementById(`node-${node.row}-${node.col}`).className =
+          'node node-visited';
+      }, 10 * i);
+    }
+  }
+
+  animateShortestPath(nodesInShortestPathOrder, time) {
     for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
       setTimeout(() => {
         const node = nodesInShortestPathOrder[i];
         document.getElementById(`node-${node.row}-${node.col}`).className =
           'node node-shortest-path';
-      }, 25 * i);
+      }, 35 * i);
     }
   }
 
@@ -82,18 +100,8 @@ export default class PathfindingVisualizer extends Component {
     const startNode = grid[START_NODE_ROW][START_NODE_COL];
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
     const visitedNodesInOrder = greedyBestFirst(grid, startNode, finishNode, 20, 50);
-    this.animateGBFS(visitedNodesInOrder);
-  }
-
-  animateGBFS(visitedNodesInOrder){
-    for (let i = 0; i < visitedNodesInOrder.length; i++) {
-      //once we reach the end of visiting nodes, then we can start the shortest path
-      setTimeout(() => {
-        const node = visitedNodesInOrder[i];
-        document.getElementById(`node-${node.row}-${node.col}`).className =
-          'node node-visited';
-      }, 10 * i);
-    }
+    const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
+    this.animateGBFS(visitedNodesInOrder, nodesInShortestPathOrder);
   }
 
   resetGrid(){
