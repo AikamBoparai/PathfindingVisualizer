@@ -1,49 +1,40 @@
-import {heap_pop, heap_push} from './minHeap';
-
-export function  greedyBestFirst(grid, startNode, finishNode, numRows, numCols){
+export function aStar(grid, startNode, finishNode, numRows, numCols){
     startNode.heuristic = 0;
+    startNode.distance = 0;
     const visitedNodesInOrder = [];
     const unvisitedNodes = getAllNodes(grid);
 
     while(unvisitedNodes.length){
-        sortNodesByHeuristic(unvisitedNodes);
+        sortNodesByHeuristicDistance(unvisitedNodes);
 
         const closestNode = unvisitedNodes.shift();
         if(closestNode.isWall)continue;
-        if(closestNode.heuristic === Infinity) return visitedNodesInOrder;
+        if(closestNode.heuristic === Infinity || closestNode.distance === Infinity) return visitedNodesInOrder;
 
         closestNode.isVisited = true;
         visitedNodesInOrder.push(closestNode);
 
         if(closestNode === finishNode) return visitedNodesInOrder;
 
-        updateUnvisitedNeighbors(closestNode, grid, finishNode);
+        updateUnvisitedNeighborsHeuristicDistance(closestNode, grid, finishNode);
     }
 }
-
 function calculateHeuristic(finishNode, currentNode){
     return Math.abs(finishNode.col - currentNode.col) + Math.abs(finishNode.row - currentNode.row);
 }
 
-function updateUnvisitedNeighbors(node, grid, finishNode){
+function updateUnvisitedNeighborsHeuristicDistance(node, grid, finishNode){
     const unvisitedNeighbors = getUnvisitedNeighbors(node, grid);
     for (const neighbor of unvisitedNeighbors) {
       neighbor.heuristic = calculateHeuristic(finishNode, neighbor);
+      neighbor.distance = node.distance + 1;
       //make sure to keep track of the previous node so we determine the shortest path
       neighbor.previousNode = node;
     }
 }
 
-function sortNodesByHeuristic(unvisitedNodes){
-    unvisitedNodes.sort((nodeA, nodeB) => nodeA.heuristic - nodeB.heuristic);
-
-}
-
-function printList(nodes){
-    console.log("Printing one list");
-    for(let i = 0; i < nodes.length; i++){
-        console.log("Row " + nodes[i].row + " Col " + nodes[i].col + " Heuristic " + nodes[i].heuristic);
-    }
+function sortNodesByHeuristicDistance(unvisitedNodes){
+    unvisitedNodes.sort((nodeA, nodeB) => (nodeA.heuristic - nodeB.heuristic) + (nodeA.distance - nodeB.distance));
 }
 
 function getAllNodes(grid) {

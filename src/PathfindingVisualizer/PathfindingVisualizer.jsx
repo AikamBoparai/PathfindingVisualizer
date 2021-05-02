@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Node from './Node/Node';
 import {dijkstra, getNodesInShortestPathOrder} from '../algorithms/dijkstra';
 import {greedyBestFirst} from '../algorithms/greedyBestFirst';
+import {aStar} from '../algorithms/astar';
 import './PathfindingVisualizer.css';
 
 
@@ -104,6 +105,16 @@ export default class PathfindingVisualizer extends Component {
     this.animateGBFS(visitedNodesInOrder, nodesInShortestPathOrder);
   }
 
+  visualizeAStar(){
+    const {grid} = this.state;
+    const startNode = grid[START_NODE_ROW][START_NODE_COL];
+    const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
+    const visitedNodesInOrder = aStar(grid, startNode, finishNode, 20, 50);
+    const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
+    this.animateGBFS(visitedNodesInOrder, nodesInShortestPathOrder);
+
+  }
+
   resetGrid(){
     var visitedNodes = document.getElementsByClassName('node node-visited');
     while(visitedNodes.length > 0){
@@ -150,6 +161,9 @@ export default class PathfindingVisualizer extends Component {
         </button>
         <button onClick={() => this.visualizeGBFS()}>
           Visualize Greedy Best First Search
+        </button>
+        <button onClick={() => this.visualizeAStar()}>
+          Visualize A*
         </button>
         <div className="grid">
           {grid.map((row, rowIdx) => {
