@@ -3,6 +3,7 @@ import Node from './Node/Node';
 import {dijkstra, getNodesInShortestPathOrder} from '../algorithms/dijkstra';
 import {greedyBestFirst} from '../algorithms/greedyBestFirst';
 import {aStar} from '../algorithms/astar';
+import {depthfirstsearch} from '../algorithms/depthfirstsearch';
 import './PathfindingVisualizer.css';
 
 
@@ -115,6 +116,15 @@ export default class PathfindingVisualizer extends Component {
 
   }
 
+  visualizeDFS(){
+      const {grid} = this.state;
+      const startNode = grid[START_NODE_ROW][START_NODE_COL];
+      const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
+      const visitedNodesInOrder = depthfirstsearch(grid, startNode, finishNode);
+      const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
+      this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
+  }
+
   resetGrid(){
     var visitedNodes = document.getElementsByClassName('node node-visited');
     while(visitedNodes.length > 0){
@@ -164,6 +174,9 @@ export default class PathfindingVisualizer extends Component {
         </button>
         <button onClick={() => this.visualizeAStar()}>
           Visualize A*
+        </button>
+        <button onClick={() => this.visualizeDFS()}>
+          Visualize DFS
         </button>
         <div className="grid">
           {grid.map((row, rowIdx) => {
