@@ -4,6 +4,7 @@ import {dijkstra, getNodesInShortestPathOrder} from '../algorithms/dijkstra';
 import {greedyBestFirst} from '../algorithms/greedyBestFirst';
 import {aStar} from '../algorithms/astar';
 import {depthfirstsearch} from '../algorithms/depthfirstsearch';
+import {breadthfirstsearch} from '../algorithms/breadthfirstsearch';
 import './PathfindingVisualizer.css';
 
 
@@ -125,6 +126,15 @@ export default class PathfindingVisualizer extends Component {
       this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
   }
 
+  visualizeBFS(){
+    const {grid} = this.state;
+    const startNode = grid[START_NODE_ROW][START_NODE_COL];
+    const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
+    const visitedNodesInOrder = breadthfirstsearch(grid, startNode, finishNode);
+    const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
+    this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
+  }
+
   resetGrid(){
     var visitedNodes = document.getElementsByClassName('node node-visited');
     while(visitedNodes.length > 0){
@@ -177,6 +187,9 @@ export default class PathfindingVisualizer extends Component {
         </button>
         <button onClick={() => this.visualizeDFS()}>
           Visualize DFS
+        </button>
+        <button onClick={() => this.visualizeBFS()}>
+          Visualize BFS
         </button>
         <div className="grid">
           {grid.map((row, rowIdx) => {

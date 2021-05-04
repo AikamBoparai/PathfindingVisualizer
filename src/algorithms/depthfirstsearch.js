@@ -11,7 +11,6 @@ function dfsHelper(visitedNodesInOrder, node, grid, finishNode){
     node.isVisited = true;
 
    const neighbors = getUnvisitedNeighbors(node, grid);
-   //checkForFinish(neighbors);
    for(let i = 0; i < neighbors.length; i++){
        if(visitedNodesInOrder[visitedNodesInOrder.length - 1] !== finishNode){
            neighbors[i].previousNode = node;
@@ -28,15 +27,4 @@ function getUnvisitedNeighbors(node, grid) {
     if (row < grid.length - 1) neighbors.push(grid[row + 1][col]);
     if (col > 0) neighbors.push(grid[row][col - 1]);
     return neighbors.filter(neighbor => (!neighbor.isVisited) && (!neighbor.isWall));
-}
-
-function checkForFinish(neighbors){
-    for(let i = 0; i < neighbors.length; i++){
-        if(neighbors.isFinish){
-            const tempNode = neighbors[0];
-            neighbors[0] = neighbors[i];
-            neighbors[i] = tempNode;
-            break;
-        }
-    }
 }
