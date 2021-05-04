@@ -61,24 +61,6 @@ export default class PathfindingVisualizer extends Component {
     }
   }
 
-  animateGBFS(visitedNodesInOrder, nodesInShortestPathOrder) {
-    //go through the visited nodes in order
-    for (let i = 0; i <= visitedNodesInOrder.length; i++) {
-      //once we reach the end of visiting nodes, then we can start the shortest path
-      if (i === visitedNodesInOrder.length) {
-        setTimeout(() => {
-          this.animateShortestPath(nodesInShortestPathOrder);
-        }, 10 * i);
-        return;
-      }
-      setTimeout(() => {
-        const node = visitedNodesInOrder[i];
-        document.getElementById(`node-${node.row}-${node.col}`).className =
-          'node node-visited';
-      }, 10 * i);
-    }
-  }
-
   animateShortestPath(nodesInShortestPathOrder, time) {
     for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
       setTimeout(() => {
@@ -104,7 +86,7 @@ export default class PathfindingVisualizer extends Component {
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
     const visitedNodesInOrder = greedyBestFirst(grid, startNode, finishNode, 20, 50);
     const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
-    this.animateGBFS(visitedNodesInOrder, nodesInShortestPathOrder);
+    this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
   }
 
   visualizeAStar(){
@@ -113,7 +95,7 @@ export default class PathfindingVisualizer extends Component {
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
     const visitedNodesInOrder = aStar(grid, startNode, finishNode, 20, 50);
     const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
-    this.animateGBFS(visitedNodesInOrder, nodesInShortestPathOrder);
+    this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
 
   }
 
