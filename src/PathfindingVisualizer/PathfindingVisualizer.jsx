@@ -231,12 +231,8 @@ const createNode = (col, row) => {
 };
 
 const getNewGridWithWallToggled = (grid, row, col) => {
-  const newGrid = grid.slice();
-  const node = newGrid[row][col];
-  const newNode = {
-    ...node,
-    isWall: !node.isWall,
-  };
-  newGrid[row][col] = newNode;
+  const newGrid = grid;
+  newGrid[row][col].isWall = !newGrid[row][col].isWall;
+  
   return newGrid;
 };
