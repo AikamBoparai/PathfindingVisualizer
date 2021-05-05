@@ -46,13 +46,23 @@ export default class PathfindingVisualizer extends Component {
 
   handleMouseEnter(row, col) {
     if (!this.state.mouseIsPressed) return;
-    const node = document.getElementById("node-" + row + "-" + col);
-    node.className = node.className === "node " ? "node node-wall" : 
-    node.className === "node node-start" || node.className === "node node-finish" ? node.className : "node ";
+    if(this.state.movingStart){
+        const currentStart = document.getElementById("node-"+START_NODE_ROW +"-"+ START_NODE_COL);
+        currentStart.className = "node ";
+        START_NODE_ROW = row;
+        START_NODE_COL = col;
+        const newStart = document.getElementById("node-"+START_NODE_ROW +"-"+ START_NODE_COL);
+        newStart.className = "node node-start";
+    }
+    else{
+      const node = document.getElementById("node-" + row + "-" + col);
+      node.className = node.className === "node " ? "node node-wall" : 
+      node.className === "node node-start" || node.className === "node node-finish" ? node.className : "node ";
+    }
   }
 
   handleMouseUp() {
-    this.setState({mouseIsPressed: false});
+    this.setState({mouseIsPressed: false, movingStart: false});
   }
 
   animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder) {
