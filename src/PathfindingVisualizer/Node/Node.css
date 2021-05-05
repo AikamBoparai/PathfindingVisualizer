@@ -8,14 +8,22 @@
   .node-finish {
     background-color: red;
   }
+
+  .node-finish:hover{
+    cursor: grabbing;
+  }
   
   .node-start {
     background-color: green;
   }
 
+  .node-start:hover{
+    cursor: grabbing;
+  }
+
   .node-visited {
     animation-name: visitedAnimation;
-    animation-duration: 1.5s;
+    animation-duration: 1.25s;
     animation-timing-function: ease-out;
     animation-delay: 0;
     animation-direction: alternate;
@@ -49,6 +57,7 @@
   .node-wall {
     background-color: rgb(12, 53, 71);
   }
+
   
   .node-shortest-path {
     animation-name: shortestPath;
