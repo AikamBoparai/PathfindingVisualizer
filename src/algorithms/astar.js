@@ -1,7 +1,7 @@
 import{getUnvisitedNeighbors} from './dijkstra';
 import{manhattanDistance} from './greedyBestFirst';
 import{getAllNodes} from './dijkstra';
-export function aStar(grid, startNode, finishNode, numRows, numCols){
+export function aStar(grid, startNode, finishNode){
     startNode.heuristic = 0;
     startNode.distance = 0;
     const visitedNodesInOrder = [];

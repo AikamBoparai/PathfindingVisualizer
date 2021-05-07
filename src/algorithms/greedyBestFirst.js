@@ -1,5 +1,5 @@
 import{getUnvisitedNeighbors, getAllNodes} from './dijkstra';
-export function greedyBestFirst(grid, startNode, finishNode, numRows, numCols){
+export function greedyBestFirst(grid, startNode, finishNode){
     startNode.heuristic = 0;
     const visitedNodesInOrder = [];
     const unvisitedNodes = getAllNodes(grid);

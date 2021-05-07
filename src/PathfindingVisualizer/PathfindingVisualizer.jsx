@@ -11,7 +11,10 @@ import './PathfindingVisualizer.css';
 var START_NODE_ROW = 10;
 var START_NODE_COL = 15;
 var FINISH_NODE_ROW = 10;
-var FINISH_NODE_COL = 35;
+var FINISH_NODE_COL = 45;
+
+const NUM_ROWS = 25;
+const NUM_COLS = 55;
 
 export default class PathfindingVisualizer extends Component {
   constructor() {
@@ -110,9 +113,9 @@ export default class PathfindingVisualizer extends Component {
   getUpdatedGrid(){
       const updatedGrid = [];
 
-      for(let row = 0; row < 20; row++){
+      for(let row = 0; row < NUM_ROWS; row++){
         const currentRow = [];
-        for(let col = 0; col < 50 ; col++){
+        for(let col = 0; col < NUM_COLS ; col++){
           const node = createNode(col, row);
           const className = document.getElementById("node-" + row + "-" + col).className;
 
@@ -150,7 +153,7 @@ export default class PathfindingVisualizer extends Component {
     this.setState({grid:currentGrid,inAnimation: true});
     const startNode = currentGrid[START_NODE_ROW][START_NODE_COL];
     const finishNode = currentGrid[FINISH_NODE_ROW][FINISH_NODE_COL];
-    const visitedNodesInOrder = greedyBestFirst(currentGrid, startNode, finishNode, 20, 50);
+    const visitedNodesInOrder = greedyBestFirst(currentGrid, startNode, finishNode);
     const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
     this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
   }
@@ -161,7 +164,7 @@ export default class PathfindingVisualizer extends Component {
     this.setState({grid:currentGrid,inAnimation: true});
     const startNode = currentGrid[START_NODE_ROW][START_NODE_COL];
     const finishNode = currentGrid[FINISH_NODE_ROW][FINISH_NODE_COL];
-    const visitedNodesInOrder = aStar(currentGrid, startNode, finishNode, 20, 50);
+    const visitedNodesInOrder = aStar(currentGrid, startNode, finishNode);
     const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
     this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
     this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
@@ -193,8 +196,8 @@ export default class PathfindingVisualizer extends Component {
     if(this.state.inAnimation)return;
     const newGrid = getInitialGrid();
     //keep walls
-    for(let row = 0; row < 20; row++){
-      for(let col = 0; col < 50; col ++){
+    for(let row = 0; row < NUM_ROWS; row++){
+      for(let col = 0; col < NUM_COLS; col ++){
         if(this.state.grid[row][col].isWall){
           newGrid[row][col].isWall = true;
         }
@@ -217,8 +220,8 @@ export default class PathfindingVisualizer extends Component {
 
   removeWalls(){
       const newGrid = getInitialGrid();
-      for(let row = 0; row < 20; row++){
-        for(let col = 0; col < 50; col ++){
+      for(let row = 0; row < NUM_ROWS; row++){
+        for(let col = 0; col < NUM_COLS; col ++){
           if(this.state.grid[row][col].isVisited){
             newGrid[row][col].isVisited = true;
           }
@@ -273,24 +276,13 @@ export default class PathfindingVisualizer extends Component {
 
     return (
       <>
-        <button onClick={() => this.resetGrid()}>Reset Grid</button>
-        <button onClick={() => this.resetPath()}>Clear Path</button>
-        <button onClick={() => this.removeWalls()}>Clear Walls</button>
-        <button onClick={() => this.visualizeDijkstra()}>
-          Visualize Dijkstra's Algorithm
-        </button>
-        <button onClick={() => this.visualizeGBFS()}>
-          Visualize Greedy Best First Search
-        </button>
-        <button onClick={() => this.visualizeAStar()}>
-          Visualize A*
-        </button>
-        <button onClick={() => this.visualizeDFS()}>
-          Visualize DFS
-        </button>
-        <button onClick={() => this.visualizeBFS()}>
-          Visualize BFS
-        </button>
+        <header class="bd-header bg-dark py-3 d-flex align-items-stretch border-bottom border-dark">
+          <div class="container-fluid d-flex align-items-center">
+            <h1 class="d-flex align-items-center fs-4 text-white mb-0">
+              Pathfinding Visualizer
+            </h1>
+          </div>
+      </header>
         <div className="grid">
           {grid.map((row, rowIdx) => {
             return (
@@ -314,9 +306,28 @@ export default class PathfindingVisualizer extends Component {
                   );
                 })}
               </div>
+              
             );
           })}
         </div>
+        <button onClick={() => this.resetGrid()}>Reset Grid</button>
+        <button onClick={() => this.resetPath()}>Clear Path</button>
+        <button onClick={() => this.removeWalls()}>Clear Walls</button>
+        <button onClick={() => this.visualizeDijkstra()}>
+          Visualize Dijkstra's Algorithm
+        </button>
+        <button onClick={() => this.visualizeGBFS()}>
+          Visualize Greedy Best First Search
+        </button>
+        <button onClick={() => this.visualizeAStar()}>
+          Visualize A*
+        </button>
+        <button onClick={() => this.visualizeDFS()}>
+          Visualize DFS
+        </button>
+        <button onClick={() => this.visualizeBFS()}>
+          Visualize BFS
+        </button>
       </>
     );
   }
@@ -324,9 +335,9 @@ export default class PathfindingVisualizer extends Component {
 
 const getInitialGrid = () => {
   const grid = [];
-  for (let row = 0; row < 20; row++) {
+  for (let row = 0; row < NUM_ROWS; row++) {
     const currentRow = [];
-    for (let col = 0; col < 50; col++) {
+    for (let col = 0; col < NUM_COLS; col++) {
       currentRow.push(createNode(col, row));
     }
     grid.push(currentRow);
@@ -336,8 +347,8 @@ const getInitialGrid = () => {
 
 const getGridWithoutPath = (grid) => {
   const newGrid = grid;
-  for(let i = 0; i < 20; i++){
-    for(let j = 0; j < 50; j++){
+  for(let i = 0; i < NUM_ROWS; i++){
+    for(let j = 0; j < NUM_COLS; j++){
       if(newGrid[i][j].isVisited){
         newGrid[i][j].isVisited = false;
       }
@@ -359,11 +370,4 @@ const createNode = (col, row) => {
     distance: Infinity,
     previousNode: null,
   };
-};
-
-const getNewGridWithWallToggled = (grid, row, col) => {
-  const newGrid = grid;
-  newGrid[row][col].isWall = !newGrid[row][col].isWall;
-  
-  return newGrid;
 };
