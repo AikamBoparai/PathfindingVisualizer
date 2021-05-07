@@ -21,6 +21,7 @@ export default class PathfindingVisualizer extends Component {
       mouseIsPressed: false,
       inAnimation: false,
       movingStart: false,
+      movingEnd: false,
     };
   }
 
@@ -33,15 +34,19 @@ export default class PathfindingVisualizer extends Component {
     //Detects when we press the mouse inside a node
     //const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
     var clickStart = false;
+    var clickFinish = false;
     if(row === START_NODE_ROW && col === START_NODE_COL){
         clickStart = true;
+    }
+    else if(row === FINISH_NODE_ROW && col === FINISH_NODE_COL){
+      clickFinish = true;
     }
     else{
       const node = document.getElementById("node-" + row + "-" + col);
       node.className = node.className === "node " ? "node node-wall" : 
       node.className === "node node-start" || node.className === "node node-finish" ? node.className : "node ";
     }
-    this.setState({mouseIsPressed: true, movingStart: clickStart});
+    this.setState({mouseIsPressed: true, movingStart: clickStart, movingEnd: clickFinish});
   }
 
   handleMouseEnter(row, col) {
@@ -53,6 +58,14 @@ export default class PathfindingVisualizer extends Component {
         START_NODE_COL = col;
         const newStart = document.getElementById("node-"+START_NODE_ROW +"-"+ START_NODE_COL);
         newStart.className = "node node-start";
+    }
+    else if(this.state.movingEnd){
+        const currentStart = document.getElementById("node-"+FINISH_NODE_ROW +"-"+ FINISH_NODE_COL);
+        currentStart.className = "node ";
+        FINISH_NODE_ROW = row;
+        FINISH_NODE_COL = col;
+        const newStart = document.getElementById("node-"+FINISH_NODE_ROW +"-"+ FINISH_NODE_COL);
+        newStart.className = "node node-finish";
     }
     else{
       const node = document.getElementById("node-" + row + "-" + col);
@@ -73,14 +86,14 @@ export default class PathfindingVisualizer extends Component {
         setTimeout(() => {
           this.animateShortestPath(nodesInShortestPathOrder);
           this.setState({inAnimation: false});
-        }, 5 * i);
+        }, 15 * i);
         return;
       }
       setTimeout(() => {
         const node = visitedNodesInOrder[i];
         document.getElementById(`node-${node.row}-${node.col}`).className =
           'node node-visited';
-      }, 5 * i);
+      }, 15 * i);
     }
   }
 
@@ -90,7 +103,7 @@ export default class PathfindingVisualizer extends Component {
         const node = nodesInShortestPathOrder[i];
         document.getElementById(`node-${node.row}-${node.col}`).className =
           'node node-shortest-path';
-      }, 35 * i);
+      }, 40 * i);
     }
   }
 
