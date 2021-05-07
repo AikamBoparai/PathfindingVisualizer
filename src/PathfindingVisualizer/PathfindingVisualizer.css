@@ -3,6 +3,7 @@
     width: 100%;
     text-align: center;
     display: block;
+    padding-top: 2em;
 }
 
 .container{
@@ -52,3 +53,21 @@ h1{
     font-family: 'Montserrat', sans-serif;
     margin: 0;
 }
+
+#container-guide ul{
+    list-style-type: none;
+    display: inline-flex;
+    margin: 0 auto;
+}
+
+#container-guide li{
+    margin-right: 8vw;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+}
+
+img{
+    top: 0.35em;
+    position: relative;
+}
+

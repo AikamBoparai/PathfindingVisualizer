@@ -55,7 +55,7 @@
   }
   
   .node-wall {
-    background-color:midnightblue;
+    background-color:#1e1e24;
   }
 
   
@@ -86,4 +86,35 @@
       background-color: rgb(255, 254, 106);
     }
   }
+
+  .display{
+    position: relative;
+    top: 0.35em;
+    width: 1.5vw;
+    height: 1.4vw;
+    outline: 1px solid #99e6ff;
+    display: inline-block;
+  }
+
+  .dStart{
+    background-color: green;
+  }
+
+  .dFinish{
+    background-color: red;
+  }
+
+  .dWall{
+    background-color:#1e1e24;
+  }
+
+  .dVisit{
+    background-color: rgba(0, 190, 218, 0.75);
+  }
+
+  .dShort{
+    background-color: rgb(255, 254, 106);
+  }
+
+  
   
