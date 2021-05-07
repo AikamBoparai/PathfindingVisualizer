@@ -51,7 +51,7 @@ export default class PathfindingVisualizer extends Component {
 
   handleMouseEnter(row, col) {
     if (!this.state.mouseIsPressed) return;
-    if(this.state.movingStart){
+    if(this.state.movingStart && !(row === FINISH_NODE_ROW && col === FINISH_NODE_COL)){
         const currentStart = document.getElementById("node-"+START_NODE_ROW +"-"+ START_NODE_COL);
         currentStart.className = "node ";
         START_NODE_ROW = row;
@@ -59,7 +59,7 @@ export default class PathfindingVisualizer extends Component {
         const newStart = document.getElementById("node-"+START_NODE_ROW +"-"+ START_NODE_COL);
         newStart.className = "node node-start";
     }
-    else if(this.state.movingEnd){
+    else if(this.state.movingEnd && !(row === START_NODE_ROW && col === START_NODE_COL)){
         const currentStart = document.getElementById("node-"+FINISH_NODE_ROW +"-"+ FINISH_NODE_COL);
         currentStart.className = "node ";
         FINISH_NODE_ROW = row;
