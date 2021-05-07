@@ -6,15 +6,13 @@ import {aStar} from '../algorithms/astar';
 import {depthfirstsearch} from '../algorithms/depthfirstsearch';
 import {breadthfirstsearch} from '../algorithms/breadthfirstsearch';
 import './PathfindingVisualizer.css';
-import StartNodeImg from '../img/StartNode.png'
-
 
 var START_NODE_ROW = 10;
 var START_NODE_COL = 15;
 var FINISH_NODE_ROW = 10;
 var FINISH_NODE_COL = 45;
 
-const NUM_ROWS = 25;
+const NUM_ROWS = 22;
 const NUM_COLS = 55;
 
 export default class PathfindingVisualizer extends Component {
@@ -26,6 +24,7 @@ export default class PathfindingVisualizer extends Component {
       inAnimation: false,
       movingStart: false,
       movingEnd: false,
+      finishedAnimation: false,
     };
   }
 
@@ -109,7 +108,6 @@ export default class PathfindingVisualizer extends Component {
       if (i === visitedNodesInOrder.length) {
         setTimeout(() => {
           this.animateShortestPath(nodesInShortestPathOrder);
-          this.setState({inAnimation: false});
         }, timeout * i);
         return;
       }
@@ -127,6 +125,9 @@ export default class PathfindingVisualizer extends Component {
         const node = nodesInShortestPathOrder[i];
         document.getElementById(`node-${node.row}-${node.col}`).className =
           'node node-shortest-path';
+        if(i === nodesInShortestPathOrder.length - 1){
+          this.setState({inAnimation: false});
+        }
       }, 40 * i);
     }
   }
@@ -159,6 +160,7 @@ export default class PathfindingVisualizer extends Component {
 
   visualize(select) {
     if(this.state.inAnimation)return;
+    if(this.state.finishedAnimation)this.resetPath();
     const currentGrid = this.getUpdatedGrid();
     this.setState({grid:currentGrid,inAnimation: true});
     const startNode = currentGrid[START_NODE_ROW][START_NODE_COL];
@@ -171,6 +173,7 @@ export default class PathfindingVisualizer extends Component {
     ;
     const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
     this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder, select);
+    this.setState({finishedAnimation: true});
   }
 
   resetPath(){
@@ -186,7 +189,7 @@ export default class PathfindingVisualizer extends Component {
     }
     this.removePathElements();
     this.setStartFinishNodes();
-    this.setState({grid: newGrid, mouseIsPressed: false});    
+    this.setState({grid: newGrid, mouseIsPressed: false, finishedAnimation: false});    
   }
 
   resetGrid(){
@@ -196,7 +199,7 @@ export default class PathfindingVisualizer extends Component {
     this.setStartFinishNodes();
 
     var initial = getInitialGrid();
-    this.setState({grid: initial, mouseIsPressed: false});
+    this.setState({grid: initial, mouseIsPressed: false, finishedAnimation:false});
   }
 
   removeWalls(){
@@ -277,6 +280,7 @@ export default class PathfindingVisualizer extends Component {
           </ul>
         </div>
         <div className="grid">
+        <p>Click to add walls!</p>
           {grid.map((row, rowIdx) => {
             return (
               <div key={rowIdx}>
@@ -303,22 +307,22 @@ export default class PathfindingVisualizer extends Component {
             );
           })}
         </div>
-        <button onClick={() => this.resetGrid()}>Reset Grid</button>
-        <button onClick={() => this.resetPath()}>Clear Path</button>
-        <button onClick={() => this.removeWalls()}>Clear Walls</button>
-        <button onClick={() => this.visualize("Dijkstra")}>
+        <button className="reset ghost" onClick={() => this.resetGrid()}>Reset Grid</button>
+        <button className="path ghost" onClick={() => this.resetPath()}>Clear Path</button>
+        <button className="walls ghost" onClick={() => this.removeWalls()}>Clear Walls</button>
+        <button className="dijkstra animated" onClick={() => this.visualize("Dijkstra")}>
           Visualize Dijkstra's Algorithm
         </button>
-        <button onClick={() => this.visualize("GBFS")}>
+        <button className="greedy animated" onClick={() => this.visualize("GBFS")}>
           Visualize Greedy Best First Search
         </button>
-        <button onClick={() => this.visualize("A*")}>
+        <button className="aStar animated" onClick={() => this.visualize("A*")}>
           Visualize A*
         </button>
-        <button onClick={() => this.visualize("DFS")}>
+        <button className="dfs animated" onClick={() => this.visualize("DFS")}>
           Visualize DFS
         </button>
-        <button onClick={() => this.visualize("BFS")}>
+        <button className="bfs animated" onClick={() => this.visualize("BFS")}>
           Visualize BFS
         </button>
       </>

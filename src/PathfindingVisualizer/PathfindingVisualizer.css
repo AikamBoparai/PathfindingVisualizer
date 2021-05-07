@@ -3,7 +3,7 @@
     width: 100%;
     text-align: center;
     display: block;
-    padding-top: 2em;
+    padding-top: 1em;
 }
 
 .container{
@@ -69,5 +69,97 @@ h1{
 img{
     top: 0.35em;
     position: relative;
+}
+
+p{
+    font-family: 'Itim', cursive;
+    font-size: 1.2em;
+    margin-bottom: 0;
+}
+
+button{
+    margin-top: 0.5vw;
+    margin-right: 3vw;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+.ghost{
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    color: #494949 !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: #ffffff;
+    padding: 0.6vw;
+    border: 0.2em solid #494949 !important;
+    border-radius: 0.5em;
+    display: inline-block;
+    transition: all 0.4s ease 0s;
+}
+
+.ghost:hover{
+    color: #ffffff !important;
+    transition: all 0.4s ease 0s;
+}
+
+.reset:hover{
+    background: #c3423f;
+    border-color: #c3423f !important;
+}
+
+.path:hover{
+    background: #3066be;
+    border-color: #3066be !important;
+}
+
+.walls:hover{
+    background: #f7b801;
+    border-color: #f7b801 !important;
+}
+
+.animated{
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    background: #ffffff;
+    padding: 0.6vw;
+    border-radius: 0.5em;
+    display: inline-block;
+    transition: all 0.3s ease 0s;
+}
+
+.greedy{
+    color: #058C42 !important;
+    border: 0.2em solid #058C42 !important;
+}
+
+.dijkstra{
+    color: #A663CC !important;
+    border: 0.2em solid #A663CC !important;
+}
+
+.animated:hover{
+    color: #494949 !important;
+    border-radius: 2em;
+    border-color: #494949 !important;
+    transition: all 0.3s ease 0s;
+}
+
+.aStar{
+    color: #00A1E4 !important;
+    border: 0.2em solid #00A1E4 !important;
+}
+
+.dfs{
+    color: #FC5130 !important;
+    border: 0.2em solid #FC5130 !important;
+}
+
+.bfs{
+    color: #9C0D38 !important;
+    border: 0.2em solid #9C0D38 !important;
 }
 
