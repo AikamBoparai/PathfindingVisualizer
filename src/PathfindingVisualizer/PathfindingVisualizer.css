@@ -79,11 +79,12 @@ p{
 
 button{
     margin-top: 0.5vw;
-    margin-right: 3vw;
+    margin-right: 1vw;
+    margin-bottom: 2vw;
     font-family: 'Open Sans', sans-serif;
     font-weight: 600;
     background: #ffffff;
-    padding: 0.6vw;
+    padding: 0.5vw;
     text-transform: uppercase;
     border-radius: 0.5em;
     display: inline-block;
